@@ -17,10 +17,18 @@ export default defineSchema({
 		admin: v.optional(v.id("users")),
 	}),
 
+	// messages: defineTable({
+	// 	conversation: v.id("conversations"),
+	// 	sender: v.string(),
+	// 	content: v.string(),
+	// 	messageType: v.union(v.literal("text"), v.literal("image"), v.literal("video"))
+	// }).index("by_conversation", ["conversation"])
+
 	messages: defineTable({
 		conversation: v.id("conversations"),
-		sender: v.string(),
+		sender: v.string(), // should be string so that it doesn't throw errors in openai part ("ChatGPT")
 		content: v.string(),
-		messageType: v.union(v.literal("text"), v.literal("image"), v.literal("video"))
-	}).index("bu_conversation", ["conversation"])
+		messageType: v.union(v.literal("text"), v.literal("image"), v.literal("video")),
+	}).index("by_conversation", ["conversation"]),
 })
+
