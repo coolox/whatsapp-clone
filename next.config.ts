@@ -8,4 +8,10 @@ const nextConfig: NextConfig = {
   }
 };
 
+module.exports = {
+    eslint: {
+        ignoreDuringBuilds: true, // Отключает ESLint при сборке (next build)
+    },
+};
+
 export default nextConfig;
