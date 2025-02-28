@@ -4,9 +4,9 @@ import ChatBubbleAvatar from "./chat-bubble-avatar";
 import DateIndicator from "./date-indicator";
 import Image from "next/image";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogDescription } from "../ui/dialog";
 import ReactPlayer from "react-player";
-//import ChatAvatarActions from "./chat-avatar-actions";
+import ChatAvatarActions from "./chat-avatar-actions";
 import { Bot } from "lucide-react";
 
 type ChatBubbleProps = {
@@ -28,7 +28,7 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 	const fromAI = message.sender?.name === "ChatGPT";
 	const bgClass = fromMe ? "bg-green-chat" : !fromAI ? "bg-white dark:bg-gray-primary" : "bg-blue-500 text-white";
 
-	console.log(message.sender);
+
 	const [open, setOpen] = useState(false);
 
 	const renderMessageContent = () => {
@@ -49,11 +49,11 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 			<>
 				<DateIndicator message={message} previousMessage={previousMessage} />
 				<div className='flex gap-1 w-2/3'>
-					<ChatBubbleAvatar isGroup={isGroup} isMember={isMember} message={message}/>
+					<ChatBubbleAvatar isGroup={isGroup} isMember={isMember} message={message} fromAI={fromAI} />
 					<div className={`flex flex-col z-20 max-w-fit px-2 pt-1 rounded-md shadow-md relative ${bgClass}`}>
 						{!fromAI && <OtherMessageIndicator />}
 						{fromAI && <Bot size={16} className='absolute bottom-[2px] left-2' />}
-						{/* {<ChatAvatarActions message={message} me={me} />} */}
+						{<ChatAvatarActions message={message} me={me} />}
 						{renderMessageContent()}
 						{open && <ImageDialog src={message.content} open={open} onClose={() => setOpen(false)} />}
 						<MessageTime time={time} fromMe={fromMe} />
@@ -107,7 +107,6 @@ const ImageDialog = ({ src, onClose, open }: { open: boolean; src: string; onClo
 			}}
 		>
 			<DialogContent className='min-w-[750px]'>
-				<DialogTitle>Sended Image</DialogTitle>
 				<DialogDescription className='relative h-[450px] flex justify-center'>
 					<Image src={src} fill className='rounded-lg object-contain' alt='image' />
 				</DialogDescription>
